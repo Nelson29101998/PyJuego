@@ -13,11 +13,11 @@ clock = pygame.time.Clock()
 
 
 # variables
-
-teclado = pygame.key.get_pressed()
+saltando = False
 
 cuadrado = pygame.Rect(0, HEIGHT//2, 60, 60)
 velocidad = [3, -14]
+saltar_HEIGHT = 20
 gravedad = 0.4
 
 while True:
@@ -25,15 +25,29 @@ while True:
         if event.type == QUIT:
             quit()
             sys.exit()
+
+    teclado = pygame.key.get_pressed()
     
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                print("A key has been pressed")
-            
+    if teclado[K_SPACE]:
+        saltando = True
+        print("A key has been pressed")
+               
     # code here
+    
+    if saltando:
+        if cuadrado.y < -saltar_HEIGHT:
+            cuadrado.y -= velocidad[1]
+            saltando = False
+            # cuadrado.y = saltar_HEIGHT
+        elif cuadrado.y > -saltar_HEIGHT:
+            cuadrado.y += velocidad[1]
+            saltando = False
+        velocidad[1] += gravedad
+    
+    
     cuadrado.x += velocidad[0]
-    cuadrado.y += velocidad[1]
-    velocidad[1] += gravedad
+    # cuadrado.y += velocidad[1]
+    # velocidad[1] += gravedad
     pygame.draw.rect(screen, (255, 255, 255), cuadrado)
     
     if cuadrado.y > HEIGHT-60:
@@ -42,4 +56,6 @@ while True:
 
     pygame.display.update()
     screen.fill((0, 0, 0))
-    clock.tick(30)
+    
+    #Ese es para calidad de imagen FPS o HZ (30 es poco duro y 60 es suave)
+    clock.tick(60)
