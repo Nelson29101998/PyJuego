@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 
 # variables
-imagen = pygame.transform.scale(pygame.image.load("assets/img/player/naveJ1.png"), (65, 60))
+imagen = pygame.transform.scale(pygame.image.load("assets/img/player/naveJ1.png").convert_alpha(), (65, 60))
 fondoPantalla = pygame.image.load("assets/img/fondo/galaxia.jpg")
 
 cuadrado = imagen.get_rect(center=(WIDTH // 2, HEIGHT // 1.1))
@@ -21,15 +21,14 @@ velocidad = [3, -3]
 aceleracion = 0.1
 
 while True:
+    teclado = pygame.key.get_pressed()
+    
     for event in pygame.event.get():
         if event.type == QUIT:
             quit()
             sys.exit()
-
-    teclado = pygame.key.get_pressed()
                
     # code here
-    
     if teclado[K_LEFT]:
         cuadrado.x -= velocidad[0]
         velocidad[0] += aceleracion
@@ -51,8 +50,6 @@ while True:
     
     if not teclado[K_UP] and not teclado[K_DOWN]:
         velocidad[1] = -3
-    
-
     
     # pygame.draw.rect(screen, (255, 255, 255), cuadrado)
     
