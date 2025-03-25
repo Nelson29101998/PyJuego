@@ -15,7 +15,11 @@ clock = pygame.time.Clock()
 # variables
 saltando = False
 
-cuadrado = pygame.Rect(WIDTH/2, HEIGHT//1.5, 60, 60)
+imagen = pygame.transform.scale(pygame.image.load("assets/img/player/naveJ1.png"), (65, 60))
+
+
+
+cuadrado = imagen.get_rect(center=(WIDTH // 2, HEIGHT // 1.1))
 velocidad = [3, -3]
 aceleracion = 0.1
 
@@ -26,10 +30,6 @@ while True:
             sys.exit()
 
     teclado = pygame.key.get_pressed()
-    
-    if teclado[K_SPACE]:
-        saltando = True
-        print("A key has been pressed")
                
     # code here
     
@@ -57,7 +57,11 @@ while True:
     
 
     
-    pygame.draw.rect(screen, (255, 255, 255), cuadrado)
+    # pygame.draw.rect(screen, (255, 255, 255), cuadrado)
+    
+    screen.blit(imagen, cuadrado)
+    
+    
     
     pygame.display.update()
     screen.fill((0, 0, 0))
