@@ -5,7 +5,7 @@ import sys
 
 pygame.init()
 
-WIDTH, HEIGHT = 500, 500
+WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
@@ -15,10 +15,9 @@ clock = pygame.time.Clock()
 # variables
 saltando = False
 
-cuadrado = pygame.Rect(0, HEIGHT//2, 60, 60)
-velocidad = [3, -14]
-saltar_HEIGHT = 20
-gravedad = 0.4
+cuadrado = pygame.Rect(WIDTH/2, HEIGHT//1.5, 60, 60)
+velocidad = [3, -3]
+aceleracion = 0.1
 
 while True:
     for event in pygame.event.get():
@@ -34,26 +33,32 @@ while True:
                
     # code here
     
-    if saltando:
-        if cuadrado.y < -saltar_HEIGHT:
-            cuadrado.y -= velocidad[1]
-            saltando = False
-            # cuadrado.y = saltar_HEIGHT
-        elif cuadrado.y > -saltar_HEIGHT:
-            cuadrado.y += velocidad[1]
-            saltando = False
-        velocidad[1] += gravedad
+    if teclado[K_LEFT]:
+        cuadrado.x -= velocidad[0]
+        velocidad[0] += aceleracion
+        
+    if teclado[K_RIGHT]:
+        cuadrado.x += velocidad[0]
+        velocidad[0] += aceleracion
     
+    if teclado[K_UP]:
+        cuadrado.y += velocidad[1]
+        velocidad[1] -= aceleracion
+        
+    if teclado[K_DOWN]:
+        cuadrado.y -= velocidad[1]
+        velocidad[1] -= aceleracion
+        
+    if not teclado[K_LEFT] and not teclado[K_RIGHT]:
+        velocidad[0] = 3
     
-    cuadrado.x += velocidad[0]
-    # cuadrado.y += velocidad[1]
-    # velocidad[1] += gravedad
+    if not teclado[K_UP] and not teclado[K_DOWN]:
+        velocidad[1] = -3
+    
+
+    
     pygame.draw.rect(screen, (255, 255, 255), cuadrado)
     
-    if cuadrado.y > HEIGHT-60:
-        velocidad[1] = 0
-        gravedad = 0
-
     pygame.display.update()
     screen.fill((0, 0, 0))
     
