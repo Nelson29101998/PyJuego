@@ -14,6 +14,7 @@ clock = pygame.time.Clock()
 
 # variables
 imagen = pygame.transform.scale(pygame.image.load("assets/img/player/naveJ1.png"), (65, 60))
+fondoPantalla = pygame.image.load("assets/img/fondo/galaxia.jpg")
 
 cuadrado = imagen.get_rect(center=(WIDTH // 2, HEIGHT // 1.1))
 velocidad = [3, -3]
@@ -55,6 +56,7 @@ while True:
     
     # pygame.draw.rect(screen, (255, 255, 255), cuadrado)
     
+    screen.blit(fondoPantalla, (0, 0))
     screen.blit(imagen, cuadrado)
     
     
