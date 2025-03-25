@@ -13,11 +13,7 @@ clock = pygame.time.Clock()
 
 
 # variables
-saltando = False
-
 imagen = pygame.transform.scale(pygame.image.load("assets/img/player/naveJ1.png"), (65, 60))
-
-
 
 cuadrado = imagen.get_rect(center=(WIDTH // 2, HEIGHT // 1.1))
 velocidad = [3, -3]
