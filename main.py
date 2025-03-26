@@ -9,7 +9,6 @@ pygame.init()
 pygame.joystick.init()
 
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-# print(joysticks)
 
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))

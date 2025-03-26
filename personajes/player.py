@@ -1,8 +1,6 @@
 import pygame
 from pygame.locals import *
 
-pygame.joystick.init()
-
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
     def __init__(self, image_file,  x, y):
         super().__init__()
@@ -14,8 +12,10 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.rect.topleft = (x, y)
 
     def update(self):
+        #Los botones del teclado
         teclado = pygame.key.get_pressed()
         
+        #Los botones del joystick
         arriba = pygame.joystick.Joystick(0).get_button(11)
         abajo = pygame.joystick.Joystick(0).get_button(12)
         izquierda = pygame.joystick.Joystick(0).get_button(13)
