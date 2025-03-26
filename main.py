@@ -19,12 +19,7 @@ fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0,0])
 player_group.add(jugador)
 fondo_group.add(fondo)
 
-# constants
-
-
-# variables
-
-
+# La maquina de Update con While
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
