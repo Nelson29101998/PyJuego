@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 from personajes import player
+from fondos import fondoPantalla
 
 import sys
 
@@ -13,15 +14,17 @@ clock = pygame.time.Clock()
 
 player_group = pygame.sprite.Group()
 
+fondo_group = pygame.sprite.Group()
+
 jugador = player.Jugador(WIDTH // 2, HEIGHT // 1.1)
+fondo = fondoPantalla.Pantalla('assets/img/fondo/galaxia.jpg', [0,0])
 player_group.add(jugador)
+fondo_group.add(fondo)
 
 # constants
 
 
 # variables
-
-# fondoPantalla = pygame.image.load("assets/img/fondo/galaxia.jpg")
 
 
 while True:
@@ -31,9 +34,9 @@ while True:
             sys.exit()
 
     # code here
-
-    # screen.blit(fondoPantalla, (0, 0))
-    # screen.blit(imagen, cuadrado)
+    
+    fondo_group.draw(screen)
+    fondo_group.update()
 
     player_group.draw(screen)
     player_group.update()
