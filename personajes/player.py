@@ -1,13 +1,14 @@
 import pygame
 from pygame.locals import *
 
+
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
-    def __init__(self, x, y):
+    def __init__(self, image_file,  x, y):
         super().__init__()
         self.aceleracion = 0.1
         self.velocidad = [3, -3]
-        self.image = pygame.transform.scale(pygame.image.load(
-            "assets/img/player/naveJ1.png").convert_alpha(), (95, 60))
+        self.image = pygame.transform.scale(
+            pygame.image.load(image_file).convert_alpha(), (95, 60))
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
 
