@@ -6,6 +6,11 @@ from fondos import fondoPantalla
 
 pygame.init()
 
+pygame.joystick.init()
+
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
+# print(joysticks)
+
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -25,7 +30,7 @@ while True:
         if event.type == QUIT:
             quit()
             sys.exit()
-
+        
     # code here
     
     fondo_group.draw(screen)
@@ -33,7 +38,7 @@ while True:
 
     player_group.draw(screen)
     player_group.update()
-
+    
     pygame.display.flip()
     screen.fill((0, 0, 0))
 
