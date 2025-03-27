@@ -37,15 +37,25 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
             buttonJoy = pygame.joystick.Joystick(0)
             ejeXL3 = buttonJoy.get_axis(0) #Eje X L3
             ejeYL3 = buttonJoy.get_axis(1) #Eje Y L3
-            self.cambiarX += ejeXL3 * 2
-            self.cambiarY += ejeYL3 * 2
+            self.cambiarXL3 += ejeXL3 * 2
+            self.cambiarYL3 += ejeYL3 * 2
             print("Eje X L3: ", self.cambiarXL3 , ", Eje Y L3: ", self.cambiarYL3)
             
             ejeXR3 = buttonJoy.get_axis(2) #Eje X R3
             ejeYR3 = buttonJoy.get_axis(3) #Eje Y R3
-            self.cambiarX += ejeXR3 * 2
-            self.cambiarY += ejeYR3 * 2
+            self.cambiarXR3 += ejeXR3 * 2
+            self.cambiarYR3 += ejeYR3 * 2
             print("Eje X R3: ", self.cambiarXR3 , ", Eje Y R3: ", self.cambiarYR3)
+            
+            empujarL2 = buttonJoy.get_axis(4) #Empujar L2
+            empujarR2 = buttonJoy.get_axis(5) #Empujar R2
+            l2_normalized = empujarL2 / 0.9 if empujarL2 > 0 else 0
+            r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
+            
+            l2_normalized = float(min(max(l2_normalized, 0), 1))
+            r2_normalized = float(min(max(r2_normalized, 0), 1))
+            
+            print("Empujar L2: ", l2_normalized , ", Empujar R2: ", r2_normalized)
             
             if buttonJoy.get_button(13): #Si se presiona la tecla izquierda o el boton 13 del joystick
                 self.rect.x -= self.velocidad[0]
