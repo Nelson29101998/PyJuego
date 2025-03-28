@@ -11,9 +11,9 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
 
-    def mover(self, donde):
+    def mover(self, donde, NumMovimiento=1):
         if donde == "arriba":
-            self.rect.y += self.velocidad[1]
+            self.rect.y += self.velocidad[1] 
             self.velocidad[1] -= self.aceleracion
         elif donde == "abajo":
             self.rect.y -= self.velocidad[1]
@@ -51,6 +51,18 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
             ejeXR3 = float(buttonJoy.get_axis(2))  #Eje X R3
             ejeYR3 = float(buttonJoy.get_axis(3)) #Eje Y R3
             print(f"L3: X={ejeXL3:.2f}, Y={ejeYL3:.2f} | R3: X={ejeXR3:.2f}, Y={ejeYR3:.2f}")
+            
+            if ejeXL3 < -0.5:
+                self.mover("izquierda", ejeXL3)
+                
+            if ejeXL3 > 0.5:
+                self.mover("derecha", ejeXL3)
+                
+            if ejeYL3 < -0.5:
+                self.mover("arriba", ejeYL3)
+                
+            if ejeYL3 > 0.5:
+                self.mover("abajo", ejeYL3)
 
             empujarL2 = buttonJoy.get_axis(4) #Empujar L2
             empujarR2 = buttonJoy.get_axis(5) #Empujar R2

@@ -9,13 +9,6 @@ pygame.init()
 pygame.joystick.init()
 
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())] #! No ponga el comentario en la linea 11 ni borrar
-
-if pygame.joystick.get_count() > 0:
-    JoyName = pygame.joystick.Joystick(0).get_name()
-    print("Joystick detectado: " + JoyName)
-    
-    JoyAx = pygame.joystick.Joystick(0).get_numaxes()
-    print("Numero de ejes: " + str(JoyAx))
     
 
 WIDTH, HEIGHT = 1000, 700
