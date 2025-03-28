@@ -7,10 +7,17 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         super().__init__()
         self.aceleracion = 0.1
         self.velocidad = [7, -7]
+        self.teletrans = [5, -5]
         self.image = pygame.transform.scale(
             pygame.image.load(image_file).convert_alpha(), (95, 60))
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
+        
+    def teletransporte(self, salto):
+        if salto == "izquierda":
+            self.rect.x -= self.teletrans[0] * 40
+        elif salto == "derecha":
+            self.rect.x += self.teletrans[0] * 40
 
     def mover(self, donde, NumMovimiento=1):
         NumMovimiento = NumMovimiento * -1 if NumMovimiento < 0 else NumMovimiento

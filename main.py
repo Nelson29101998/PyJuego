@@ -37,9 +37,9 @@ while True:
             sys.exit()
         if event.type == pygame.JOYBUTTONDOWN:
             if event.button == 9:
-                print("Botón 9 presionado")
+                jugador.teletransporte("izquierda")
             if event.button == 10:
-                print("Botón 10 presionado")
+                jugador.teletransporte("derecha")
         
     # code here
     
