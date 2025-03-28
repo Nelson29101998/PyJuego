@@ -11,25 +11,35 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
 
+    def mover(self, donde):
+        if donde == "arriba":
+            self.rect.y += self.velocidad[1]
+            self.velocidad[1] -= self.aceleracion
+        elif donde == "abajo":
+            self.rect.y -= self.velocidad[1]
+            self.velocidad[1] -= self.aceleracion
+        elif donde == "izquierda":
+            self.rect.x -= self.velocidad[0]
+            self.velocidad[0] += self.aceleracion
+        elif donde == "derecha":
+            self.rect.x += self.velocidad[0]
+            self.velocidad[0] += self.aceleracion
+    
     def update(self):
         #Los botones del teclado
         teclado = pygame.key.get_pressed()
         
         if teclado[K_LEFT]: #Si se presiona la tecla izquierda o el boton 13 del joystick
-            self.rect.x -= self.velocidad[0]
-            self.velocidad[0] += self.aceleracion
+            self.mover("izquierda")
 
         if teclado[K_RIGHT]: #Si se presiona la tecla derecha o el boton 14 del joystick
-            self.rect.x += self.velocidad[0]
-            self.velocidad[0] += self.aceleracion
+            self.mover("derecha")
 
         if teclado[K_UP]: #Si se presiona la tecla arriba o el boton 11 del joystick
-            self.rect.y += self.velocidad[1]
-            self.velocidad[1] -= self.aceleracion
+            self.mover("arriba")
 
         if teclado[K_DOWN]: #Si se presiona la tecla abajo o el boton 12 del joystick
-            self.rect.y -= self.velocidad[1]
-            self.velocidad[1] -= self.aceleracion
+            self.mover("abajo")
         
         #Los botones del joystick
         if pygame.joystick.get_count() > 0:      
@@ -53,20 +63,16 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
             # print("Empujar L2: ", l2_normalized , ", Empujar R2: ", r2_normalized)
             
             if buttonJoy.get_button(13): #Si se presiona la tecla izquierda o el boton 13 del joystick
-                self.rect.x -= self.velocidad[0]
-                self.velocidad[0] += self.aceleracion
+                self.mover("izquierda")
             
             if buttonJoy.get_button(14): #Si se presiona la tecla derecha o el boton 14 del joystick
-                self.rect.x += self.velocidad[0]
-                self.velocidad[0] += self.aceleracion
+                self.mover("derecha")
             
-            if buttonJoy.get_button(11):
-                self.rect.y += self.velocidad[1] #Si se presiona la tecla arriba o el boton 11 del joystick
-                self.velocidad[1] -= self.aceleracion
+            if buttonJoy.get_button(11): #Si se presiona la tecla arriba o el boton 11 del joystick
+                self.mover("arriba")
             
             if buttonJoy.get_button(12): #Si se presiona la tecla abajo o el boton 12 del joystick
-                self.rect.y -= self.velocidad[1]
-                self.velocidad[1] -= self.aceleracion
+                self.mover("abajo")
             
             if not (teclado[K_LEFT] or buttonJoy.get_button(13)) and not (teclado[K_RIGHT] or buttonJoy.get_button(14)):
                 self.velocidad[0] = 3
