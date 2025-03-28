@@ -8,7 +8,6 @@ pygame.init()
 
 pygame.joystick.init()
 
-
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())] #! No ponga el comentario en la linea 11 ni borrar
 for joystick in joysticks:
     joystick.init()    
@@ -20,7 +19,6 @@ clock = pygame.time.Clock()
 player_group = pygame.sprite.Group()
 
 fondo_group = pygame.sprite.Group()
-
 
 jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH // 2, HEIGHT // 1.1)
 fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0,0])

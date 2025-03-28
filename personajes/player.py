@@ -16,7 +16,6 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         # if NumMovimiento < 0:
         NumMovimiento = NumMovimiento * -1 if NumMovimiento < 0 else NumMovimiento
 
-        print("Movimiento: ", donde, NumMovimiento)
         if donde == "arriba":
             self.rect.y += self.velocidad[1] * NumMovimiento
         elif donde == "abajo":
