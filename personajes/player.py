@@ -47,12 +47,9 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
             buttonJoy = pygame.joystick.Joystick(0)
             ejeXL3 = float(buttonJoy.get_axis(0))  # Eje X L3
             ejeYL3 = float(buttonJoy.get_axis(1))  # Eje Y L3
-            # print("Eje X L3: ", ejeXL3 , ", Eje Y L3: ", ejeYL3)
 
             ejeXR3 = float(buttonJoy.get_axis(2))  # Eje X R3
             ejeYR3 = float(buttonJoy.get_axis(3))  # Eje Y R3
-            print(
-                f"L3: X={ejeXL3:.2f}, Y={ejeYL3:.2f} | R3: X={ejeXR3:.2f}, Y={ejeYR3:.2f}")
 
             if ejeXL3 < -0.2:
                 self.mover("izquierda", ejeXL3 * 1.5)

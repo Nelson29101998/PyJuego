@@ -9,7 +9,8 @@ pygame.init()
 pygame.joystick.init()
 
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())] #! No ponga el comentario en la linea 11 ni borrar
-    
+for joystick in joysticks:
+    joystick.init()    
 
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -28,6 +29,11 @@ fondo_group.add(fondo)
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
+            for joystick in joysticks:
+                joystick.quit()
+            
+            pygame.joystick.quit()
+            pygame.quit()
             quit()
             sys.exit()
         
