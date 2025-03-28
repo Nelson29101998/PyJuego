@@ -35,6 +35,11 @@ while True:
             pygame.quit()
             quit()
             sys.exit()
+        if event.type == pygame.JOYBUTTONDOWN:
+            if event.button == 9:
+                print("Botón 9 presionado")
+            if event.button == 10:
+                print("Botón 10 presionado")
         
     # code here
     
