@@ -13,7 +13,6 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.rect.topleft = (x, y)
 
     def mover(self, donde, NumMovimiento=1):
-        # if NumMovimiento < 0:
         NumMovimiento = NumMovimiento * -1 if NumMovimiento < 0 else NumMovimiento
 
         if donde == "arriba":
