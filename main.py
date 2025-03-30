@@ -6,17 +6,18 @@ from fondos import fondoPantalla
 
 from pydualsense import pydualsense, TriggerModes
 
-ds = pydualsense()
-
-ds.init()
-
 pygame.init()
 
 pygame.joystick.init()
 
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())] #! No ponga el comentario en la linea 11 ni borrar
 for joystick in joysticks:
-    joystick.init()    
+    joystick.init()
+    
+if pygame.joystick.get_count() > 0:
+    ds = pydualsense()
+
+    ds.init()
 
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
