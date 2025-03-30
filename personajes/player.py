@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 
-
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
     def __init__(self, image_file,  x, y):
         super().__init__()
