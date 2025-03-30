@@ -35,7 +35,6 @@ fondo_group.add(fondo)
 while True:
     
     for event in pygame.event.get():
-        # ds.triggerL.setMode(TriggerModes.Off)
         if event.type == QUIT:
             for joystick in joysticks:
                 joystick.quit()
@@ -46,22 +45,35 @@ while True:
             sys.exit()
         if event.type == pygame.JOYBUTTONDOWN:
             if event.button == 9:
-                # jugador.teletransporte("izquierda")
-                ds.setLeftMotor(255)
-                time.sleep(2)
-                ds.setLeftMotor(0)
+                jugador.teletransporte("izquierda")
+                # if pygame.joystick.get_count() > 0:
+                #     ds.setLeftMotor(255)
+                #     time.sleep(2)
+                #     ds.setLeftMotor(0)
             
             if event.button == 10:
-                # jugador.teletransporte("derecha")
-                ds.setRightMotor(255)
-                time.sleep(2)
-                ds.setRightMotor(0)
+                jugador.teletransporte("derecha")
+                # if pygame.joystick.get_count() > 0:
+                #     ds.setRightMotor(255)
+                #     time.sleep(2)
+                #     ds.setRightMotor(0)
 
-    # if ds.cross_pressed:  # Botón "X"
-    #     ds.triggerL.setMode(TriggerModes.Rigid)
-    #     ds.triggerL.setForce(1, 255)
-    #     print("Gatillo izquierdo configurado en modo rígido.")
-    # else:
+    if pygame.joystick.get_count() > 0:
+            buttonJoy = pygame.joystick.Joystick(0)
+            if buttonJoy.get_button(0):  # Botón "X"
+                ds.triggerL.setMode(TriggerModes.Rigid)
+                ds.triggerL.setForce(1, 200)
+                print("Gatillo izquierdo configurado en modo rígido.")
+            elif buttonJoy.get_button(1):  # Botón "O"
+                ds.triggerL.setForce(1, 200)
+                ds.triggerL.setForce(2, 110)
+                ds.triggerL.setForce(3, 30)
+                ds.triggerL.setMode(TriggerModes.Pulse)
+            elif buttonJoy.get_button(2): # Botón "Cuadrado"
+                ds.setLeftMotor(255)
+            else:
+                ds.triggerL.setMode(TriggerModes.Off)
+                ds.setLeftMotor(0)
             
         
     # code here
