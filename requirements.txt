@@ -1,0 +1,9 @@
+cffi==1.17.1
+Deprecated==1.2.18
+hidapi-usb==0.3.2
+pycparser==2.22
+pydualsense==0.7.3
+pyee==11.1.1
+pygame==2.6.1
+typing_extensions==4.13.0
+wrapt==1.17.2

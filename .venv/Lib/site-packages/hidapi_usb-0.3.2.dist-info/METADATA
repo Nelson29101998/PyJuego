@@ -1,0 +1,16 @@
+Metadata-Version: 2.2
+Name: hidapi-usb
+Version: 0.3.2
+Summary: CFFI wrapper for hidapi with changes by flok
+Home-page: https://github.com/flok/hidapi-cffi.git
+Author: Florian K
+Author-email: 37000563+flok@users.noreply.github.com
+License: BSD
+License-File: LICENSE.txt
+Requires-Dist: cffi
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary

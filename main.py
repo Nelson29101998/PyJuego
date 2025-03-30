@@ -1,8 +1,14 @@
-import pygame, sys
+import pygame, time, sys
 from pygame.locals import *
 
 from personajes import player
 from fondos import fondoPantalla
+
+from pydualsense import pydualsense, TriggerModes
+
+ds = pydualsense()
+
+ds.init()
 
 pygame.init()
 
@@ -27,19 +33,36 @@ fondo_group.add(fondo)
 
 # La maquina de Update con While
 while True:
+    
     for event in pygame.event.get():
+        # ds.triggerL.setMode(TriggerModes.Off)
         if event.type == QUIT:
             for joystick in joysticks:
                 joystick.quit()
             pygame.joystick.quit()
             pygame.quit()
+            ds.close()
             quit()
             sys.exit()
         if event.type == pygame.JOYBUTTONDOWN:
             if event.button == 9:
-                jugador.teletransporte("izquierda")
+                # jugador.teletransporte("izquierda")
+                ds.setLeftMotor(255)
+                time.sleep(2)
+                ds.setLeftMotor(0)
+            
             if event.button == 10:
-                jugador.teletransporte("derecha")
+                # jugador.teletransporte("derecha")
+                ds.setRightMotor(255)
+                time.sleep(2)
+                ds.setRightMotor(0)
+
+    # if ds.cross_pressed:  # Botón "X"
+    #     ds.triggerL.setMode(TriggerModes.Rigid)
+    #     ds.triggerL.setForce(1, 255)
+    #     print("Gatillo izquierdo configurado en modo rígido.")
+    # else:
+            
         
     # code here
     
