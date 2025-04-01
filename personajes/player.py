@@ -26,7 +26,7 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         if donde == "arriba":
             self.rect.y += self.velocidad[1] * NumMovimiento
             if self.rect.top < self.maxArriba:  # Limitar para que no salga por arriba
-                self.rect.top = 332
+                self.rect.top = self.maxArriba
 
         elif donde == "abajo":
             self.rect.y -= self.velocidad[1] * NumMovimiento
