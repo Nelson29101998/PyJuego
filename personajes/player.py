@@ -10,7 +10,6 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.teletrans = [5, -5]
         self.image = pygame.transform.scale(pygame.image.load(image_file).convert_alpha(), (95, 60))
         self.rect = self.image.get_rect(center=(x, y))
-        self.rect.topleft = (x, y)
         
     def getPosicion(self):
         return self.rect.x, self.rect.y
