@@ -26,7 +26,7 @@ def main():
 
     fondo_group = pygame.sprite.Group()
 
-    jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH // 2, HEIGHT // 1.1)
+    jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
     player_group.add(jugador)
     fondo_group.add(fondo)
