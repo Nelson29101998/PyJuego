@@ -4,14 +4,13 @@ from pygame.locals import *
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
     def __init__(self, image_file,  x, y):
         super().__init__()
-        sequedaX, sequedaY = x // 2, y // 1.1
         self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 332, y, 0, x  # Limite superior
-        self.aceleracion = 0.1
+        x, y = x // 2, y // 1.1 # Posicion inicial del jugador
         self.velocidad = [7, -7]
         self.teletrans = [5, -5]
         self.image = pygame.transform.scale(pygame.image.load(image_file).convert_alpha(), (95, 60))
-        self.rect = self.image.get_rect(center=(sequedaX, sequedaY))
-        self.rect.topleft = (sequedaX, sequedaY)
+        self.rect = self.image.get_rect(center=(x, y))
+        self.rect.topleft = (x, y)
         
     def teletransporte(self, salto):
         if salto == "izquierda":
