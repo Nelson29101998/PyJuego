@@ -4,7 +4,7 @@ from pygame.locals import *
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
     def __init__(self, image_file,  x, y):
         super().__init__()
-        self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 332, y, 0, x  # Limite superior
+        self.limitePantallaX, self.limitePantallaY = x, y
         x, y = x // 2, y // 1.1 # Posicion inicial del jugador
         self.velocidad = [7, -7]
         self.teletrans = [5, -5]
@@ -12,40 +12,45 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
     
-    # def limitePantalla(self):
+    def limitePantalla(self):
+        self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 332, self.limitePantallaY, 0, self.limitePantallaX # Limite superior
+        if self.rect.top < self.maxArriba:  # Limitar para que no salga por arriba
+                self.rect.top = self.maxArriba
+        
+        if self.rect.bottom > self.maxAbajo:  # Limitar para que no salga por abajo
+                self.rect.bottom = self.maxAbajo
+        
+        if self.rect.left < self.maxIzquierda:  # Limitar para que no salga por la izquierda
+                self.rect.left = self.maxIzquierda
+        
+        if self.rect.right > self.maxDerecha:  # Limitar para que no salga por la derecha
+                self.rect.right = self.maxDerecha
+        
         
     def teletransporte(self, salto):
         if salto == "izquierda":
             self.rect.x -= self.teletrans[0] * 40
-            if self.rect.left < self.maxIzquierda:  # Limitar para que no salga por la izquierda
-                self.rect.left = self.maxIzquierda
         elif salto == "derecha":
             self.rect.x += self.teletrans[0] * 40
-            if self.rect.right > self.maxDerecha:  # Limitar para que no salga por la derecha
-                self.rect.right = self.maxDerecha
+        
+        self.limitePantalla()  # Limitar el movimiento del jugador a la pantalla
 
     def mover(self, donde, NumMovimiento=1):
         NumMovimiento = NumMovimiento * -1 if NumMovimiento < 0 else NumMovimiento
 
         if donde == "arriba":
             self.rect.y += self.velocidad[1] * NumMovimiento
-            if self.rect.top < self.maxArriba:  # Limitar para que no salga por arriba
-                self.rect.top = self.maxArriba
 
         elif donde == "abajo":
             self.rect.y -= self.velocidad[1] * NumMovimiento
-            if self.rect.bottom > self.maxAbajo:  # Limitar para que no salga por abajo
-                self.rect.bottom = self.maxAbajo
 
         elif donde == "izquierda":
             self.rect.x -= self.velocidad[0] * NumMovimiento
-            if self.rect.left < self.maxIzquierda:  # Limitar para que no salga por la izquierda
-                self.rect.left = self.maxIzquierda
 
         elif donde == "derecha":
             self.rect.x += self.velocidad[0] * NumMovimiento
-            if self.rect.right > self.maxDerecha:  # Limitar para que no salga por la derecha
-                self.rect.right = self.maxDerecha
+        
+        self.limitePantalla()  # Limitar el movimiento del jugador a la pantalla
         
         # print("Posicion Jugador: X: ", self.rect.x, " Y: ", self.rect.y)
 
