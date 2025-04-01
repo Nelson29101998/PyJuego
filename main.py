@@ -40,7 +40,6 @@ def main():
 
     # La maquina de Update con While
     while True:
-
         for event in pygame.event.get():
             if event.type == QUIT:
                 for joystick in joysticks:

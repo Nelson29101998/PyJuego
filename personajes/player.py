@@ -4,6 +4,8 @@ from pygame.locals import *
 class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
     def __init__(self, image_file,  x, y):
         super().__init__()
+        self.screen_width, self.screen_height = 1000, 700 # Tamaño de la pantalla limites
+        self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 332, self.screen_height, 0, self.screen_width  # Limite superior
         self.aceleracion = 0.1
         self.velocidad = [7, -7]
         self.teletrans = [5, -5]
@@ -23,12 +25,26 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
 
         if donde == "arriba":
             self.rect.y += self.velocidad[1] * NumMovimiento
+            if self.rect.top < self.maxArriba:  # Limitar para que no salga por arriba
+                self.rect.top = 332
+
         elif donde == "abajo":
             self.rect.y -= self.velocidad[1] * NumMovimiento
+            if self.rect.bottom > self.maxAbajo:  # Limitar para que no salga por abajo
+                self.rect.bottom = self.maxAbajo
+
         elif donde == "izquierda":
             self.rect.x -= self.velocidad[0] * NumMovimiento
+            if self.rect.left < self.maxIzquierda:  # Limitar para que no salga por la izquierda
+                self.rect.left = self.maxIzquierda
+
         elif donde == "derecha":
             self.rect.x += self.velocidad[0] * NumMovimiento
+            if self.rect.right > self.maxDerecha:  # Limitar para que no salga por la derecha
+                self.rect.right = self.maxDerecha
+        
+        # print("Posicion Jugador: X: ", self.rect.x, " Y: ", self.rect.y)
+
 
     def update(self):
         # Los botones del teclado
