@@ -11,12 +11,18 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.image = pygame.transform.scale(pygame.image.load(image_file).convert_alpha(), (95, 60))
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
+    
+    # def limitePantalla(self):
         
     def teletransporte(self, salto):
         if salto == "izquierda":
             self.rect.x -= self.teletrans[0] * 40
+            if self.rect.left < self.maxIzquierda:  # Limitar para que no salga por la izquierda
+                self.rect.left = self.maxIzquierda
         elif salto == "derecha":
             self.rect.x += self.teletrans[0] * 40
+            if self.rect.right > self.maxDerecha:  # Limitar para que no salga por la derecha
+                self.rect.right = self.maxDerecha
 
     def mover(self, donde, NumMovimiento=1):
         NumMovimiento = NumMovimiento * -1 if NumMovimiento < 0 else NumMovimiento
