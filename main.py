@@ -2,6 +2,7 @@ import pygame, time, sys
 from pygame.locals import *
 
 from personajes import player
+from armas import canonLaser
 from fondos import fondoPantalla
 
 from pydualsense import pydualsense, TriggerModes
@@ -18,6 +19,9 @@ def main():
         ds = pydualsense()
         ds.init()
 
+    disparo_delay = 500 # Tiempo de espera entre disparos en milisegundos
+    ultimo_disparo = pygame.time.get_ticks()
+    
     WIDTH, HEIGHT = 1000, 700
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
@@ -27,8 +31,11 @@ def main():
     fondo_group = pygame.sprite.Group()
 
     jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
+    # posX, posY = jugador.getPosicion()
+    # laser = canonLaser.Laser((255, 0, 0), posX, posY)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
     player_group.add(jugador)
+    # player_group.add(laser)
     fondo_group.add(fondo)
 
     trigger_forces = {}
@@ -76,7 +83,13 @@ def main():
                 ds.triggerL.setForce(3, 30)
                 ds.triggerL.setMode(TriggerModes.Pulse)
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
-                ds.setLeftMotor(255)
+                ahora = pygame.time.get_ticks()
+                if ahora - ultimo_disparo >= disparo_delay:
+                    ds.setLeftMotor(255)
+                    posX, posY = jugador.getPosicion()
+                    laser = canonLaser.Laser((255, 0, 0), posX, posY)
+                    player_group.add(laser)
+                    ultimo_disparo = ahora
             else:
                 ds.triggerL.setMode(TriggerModes.Off)
                 ds.setLeftMotor(0)

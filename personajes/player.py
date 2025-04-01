@@ -11,9 +11,12 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         self.image = pygame.transform.scale(pygame.image.load(image_file).convert_alpha(), (95, 60))
         self.rect = self.image.get_rect(center=(x, y))
         self.rect.topleft = (x, y)
+        
+    def getPosicion(self):
+        return self.rect.x, self.rect.y
     
     def limitePantalla(self):
-        self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 332, self.limitePantallaY, 0, self.limitePantallaX # Limite superior
+        self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 370, self.limitePantallaY, 0, self.limitePantallaX # Limite superior
         if self.rect.top < self.maxArriba:  # Limitar para que no salga por arriba
                 self.rect.top = self.maxArriba
         
