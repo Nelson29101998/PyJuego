@@ -88,7 +88,7 @@ def main():
                     posX, posY = jugador.getPosicion()
                     laser = canonLaser.Laser((255, 0, 0), posX, posY)
                     player_group.add(laser)
-                    lasers_temporales.append((laser, ahora + 2000)) 
+                    lasers_temporales.append((laser, ahora + 2000)) # Añadir el láser a la lista con un tiempo de vida de 2 segundos
                     ultimo_disparo = ahora
             else:
                 ds.triggerL.setMode(TriggerModes.Off)
