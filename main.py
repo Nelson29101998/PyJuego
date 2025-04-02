@@ -19,7 +19,7 @@ def main():
         ds = pydualsense()
         ds.init()
 
-    disparo_delay = 500 # Tiempo de espera entre disparos en milisegundos
+    disparo_delay = 500  # En milisegundos (medio segundo)
     ultimo_disparo = pygame.time.get_ticks()
     
     WIDTH, HEIGHT = 1000, 700
@@ -70,7 +70,7 @@ def main():
                     #     ds.setRightMotor(255)
                     #     time.sleep(2)
                     #     ds.setRightMotor(0)
-
+        
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
             if buttonJoy.get_button(0):  # Botón "X"

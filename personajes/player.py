@@ -8,7 +8,15 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         x, y = x // 2, y // 1.1 # Posicion inicial del jugador
         self.velocidad = [7, -7]
         self.teletrans = [5, -5]
-        self.image = pygame.transform.scale(pygame.image.load(image_file).convert_alpha(), (95, 60))
+        image_file = pygame.image.load(image_file).convert_alpha()
+        original_width, original_height = image_file.get_size()
+        scale_factor = 0.1
+
+        # Calcular el nuevo tamaño manteniendo las proporciones
+        new_width = int(original_width * scale_factor)
+        new_height = int(original_height * scale_factor)
+
+        self.image = pygame.transform.scale(image_file, (new_width, new_height))
         self.rect = self.image.get_rect(center=(x, y))
         
     def getPosicion(self):
