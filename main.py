@@ -7,6 +7,9 @@ from fondos import fondoPantalla
 
 from pydualsense import pydualsense, TriggerModes
 
+def apagarGatillos(ds):
+    return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
+
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
     ahora = pygame.time.get_ticks()
     if ds:
@@ -70,6 +73,8 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 for joystick in joysticks:
+                    ds.triggerL.setMode(TriggerModes.Off)
+                    ds.triggerR.setMode(TriggerModes.Off)
                     joystick.quit()
                     ds.close()
                 pygame.joystick.quit()
@@ -107,8 +112,9 @@ def main():
                 ds.triggerL.setMode(TriggerModes.Pulse)
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
                 ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds)
-            else:
-                ds.triggerL.setMode(TriggerModes.Off)
+            # else:
+            #     ds.triggerL.setMode(TriggerModes.Off)
+            #     ds.triggerR.setMode(TriggerModes.Off)
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
             if ahora >= tiempo:
