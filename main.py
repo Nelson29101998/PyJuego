@@ -23,7 +23,7 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         # Añadir el láser al grupo
         player_group.add(laser)
         # Registrar tiempo de vida del láser
-        lasers_temporales.append((laser, ahora + 3000))  # Tiempo de vida de 2 segundos
+        lasers_temporales.append((laser, ahora + 3000))  # Tiempo de vida de 3 segundos
         # Actualizar el último disparo
         return ahora  # Devolver el tiempo actual para actualizar "ultimo_disparo"
     if ds:
@@ -84,17 +84,10 @@ def main():
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 9:
                     jugador.teletransporte("izquierda")
-                    # if pygame.joystick.get_count() > 0:
-                    #     ds.setLeftMotor(255)
-                    #     time.sleep(2)
-                    #     ds.setLeftMotor(0)
+                    
 
                 if event.button == 10:
                     jugador.teletransporte("derecha")
-                    # if pygame.joystick.get_count() > 0:
-                    #     ds.setRightMotor(255)
-                    #     time.sleep(2)
-                    #     ds.setRightMotor(0)
         
         if teclado[K_RETURN]:
             ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
