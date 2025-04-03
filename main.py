@@ -7,6 +7,27 @@ from fondos import fondoPantalla
 
 from pydualsense import pydualsense, TriggerModes
 
+def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds):
+    ahora = pygame.time.get_ticks()
+    if ahora - ultimo_disparo >= disparo_delay:
+        if ds:
+            # Activar el motor izquierdo
+            ds.setLeftMotor(255)
+
+        # Obtener posición del jugador
+        posX, posY = jugador.getPosicion()
+        # Crear el láser
+        laser = canonLaser.Laser((255, 0, 0), posX, posY)
+        # Añadir el láser al grupo
+        player_group.add(laser)
+        # Registrar tiempo de vida del láser
+        lasers_temporales.append((laser, ahora + 2000))  # Tiempo de vida de 2 segundos
+        # Actualizar el último disparo
+        return ahora  # Devolver el tiempo actual para actualizar "ultimo_disparo"
+    if ds:
+        ds.setLeftMotor(0)
+    return ultimo_disparo  # Mantener el tiempo anterior si no se disparó
+
 def main():
     pygame.init()
 
@@ -45,6 +66,7 @@ def main():
 
     # La maquina de Update con While
     while True:
+        teclado = pygame.key.get_pressed()
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -82,17 +104,9 @@ def main():
                 ds.triggerL.setForce(3, 30)
                 ds.triggerL.setMode(TriggerModes.Pulse)
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
-                
-                if ahora - ultimo_disparo >= disparo_delay:
-                    ds.setLeftMotor(255)
-                    posX, posY = jugador.getPosicion()
-                    laser = canonLaser.Laser((255, 0, 0), posX, posY)
-                    player_group.add(laser)
-                    lasers_temporales.append((laser, ahora + 2000)) # Añadir el láser a la lista con un tiempo de vida de 2 segundos
-                    ultimo_disparo = ahora
+                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds)
             else:
                 ds.triggerL.setMode(TriggerModes.Off)
-                ds.setLeftMotor(0)
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
             if ahora >= tiempo:

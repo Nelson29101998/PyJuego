@@ -17,4 +17,4 @@ class Laser(pygame.sprite.Sprite):  # Jugador de la Nave
         ahora = pygame.time.get_ticks()
     
     def update(self):
-        pass
+        self.rect.y -= 5
