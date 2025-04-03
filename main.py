@@ -112,9 +112,9 @@ def main():
                 ds.triggerL.setMode(TriggerModes.Pulse)
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
                 ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds)
-            # else:
-            #     ds.triggerL.setMode(TriggerModes.Off)
-            #     ds.triggerR.setMode(TriggerModes.Off)
+            else:
+                ds.triggerL.setMode(TriggerModes.Off)
+                ds.triggerR.setMode(TriggerModes.Off)
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
             if ahora >= tiempo:
