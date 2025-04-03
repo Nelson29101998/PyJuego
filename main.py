@@ -10,6 +10,13 @@ from pydualsense import pydualsense, TriggerModes
 def apagarGatillos(ds):
     return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
 
+def cambioArmas(numCambiar):
+    match numCambiar:
+        case 1:
+            print("Hola 1")
+        case 2:
+            print("Hola 2")
+
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
     ahora = pygame.time.get_ticks()
     if ds:
@@ -83,7 +90,9 @@ def main():
                 sys.exit()
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 9:
-                    jugador.teletransporte("izquierda")
+                    # jugador.teletransporte("izquierda")
+                    numero = 1
+                    cambioArmas(numero)
                     
 
                 if event.button == 10:
