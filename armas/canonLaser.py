@@ -13,8 +13,5 @@ class Laser(pygame.sprite.Sprite):  # Jugador de la Nave
     def getPosicion(self):
         return self.rect.x, self.rect.y
     
-    def disparar(self):
-        ahora = pygame.time.get_ticks()
-    
     def update(self):
-        self.rect.y -= 5
+        self.rect.y -= 7

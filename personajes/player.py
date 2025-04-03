@@ -69,16 +69,16 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         # Los botones del teclado
         teclado = pygame.key.get_pressed()
 
-        if teclado[K_LEFT]:  # Si se presiona la tecla izquierda o el boton 13 del joystick
+        if teclado[K_LEFT] or teclado[K_a]:  # Si se presiona la tecla izquierda o el boton 13 del joystick
             self.mover("izquierda")
 
-        if teclado[K_RIGHT]:  # Si se presiona la tecla derecha o el boton 14 del joystick
+        if teclado[K_RIGHT] or teclado[K_d]:  # Si se presiona la tecla derecha o el boton 14 del joystick
             self.mover("derecha")
 
-        if teclado[K_UP]:  # Si se presiona la tecla arriba o el boton 11 del joystick
+        if teclado[K_UP] or teclado[K_w]:  # Si se presiona la tecla arriba o el boton 11 del joystick
             self.mover("arriba")
 
-        if teclado[K_DOWN]:  # Si se presiona la tecla abajo o el boton 12 del joystick
+        if teclado[K_DOWN] or teclado[K_s]:  # Si se presiona la tecla abajo o el boton 12 del joystick
             self.mover("abajo")
 
         # Los botones del joystick

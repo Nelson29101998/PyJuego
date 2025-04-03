@@ -7,13 +7,12 @@ from fondos import fondoPantalla
 
 from pydualsense import pydualsense, TriggerModes
 
-def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds):
+def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
     ahora = pygame.time.get_ticks()
+    if ds:
+        # Activar el motor izquierdo
+        ds.setRightMotor(255)
     if ahora - ultimo_disparo >= disparo_delay:
-        if ds:
-            # Activar el motor izquierdo
-            ds.setLeftMotor(255)
-
         # Obtener posición del jugador
         posX, posY = jugador.getPosicion()
         # Crear el láser
@@ -21,11 +20,11 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         # Añadir el láser al grupo
         player_group.add(laser)
         # Registrar tiempo de vida del láser
-        lasers_temporales.append((laser, ahora + 2000))  # Tiempo de vida de 2 segundos
+        lasers_temporales.append((laser, ahora + 3000))  # Tiempo de vida de 2 segundos
         # Actualizar el último disparo
         return ahora  # Devolver el tiempo actual para actualizar "ultimo_disparo"
     if ds:
-        ds.setLeftMotor(0)
+        ds.setRightMotor(0)
     return ultimo_disparo  # Mantener el tiempo anterior si no se disparó
 
 def main():
@@ -91,6 +90,9 @@ def main():
                     #     ds.setRightMotor(255)
                     #     time.sleep(2)
                     #     ds.setRightMotor(0)
+        
+        if teclado[K_RETURN]:
+            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
         
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
