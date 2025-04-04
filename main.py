@@ -10,12 +10,32 @@ from pydualsense import pydualsense, TriggerModes
 def apagarGatillos(ds):
     return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
 
-def cambioArmas(numCambiar):
+def cambioArmas(numCambiar, ds):
     match numCambiar:
         case 1:
             print("Hola 1")
+            ds.triggerL.setForce(1, 200)
+            ds.triggerL.setForce(2, 110)
+            ds.triggerL.setForce(3, 30)
+            ds.triggerL.setMode(TriggerModes.Pulse)
         case 2:
             print("Hola 2")
+        case 3:
+            print("Hola 3")
+        case 4:
+            print("Hola 4")
+        case 5:
+            print("Hola 5")
+        case 6:
+            print("Hola 6")
+        case 7:
+            print("Hola 7")
+        case 8:
+            print("Hola 8")
+        case 9:
+            print("Hola 9")
+        case 10:
+            print("Hola 10")
 
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
     ahora = pygame.time.get_ticks()
@@ -72,6 +92,8 @@ def main():
     trigger_forces[1] = 0  # Fuerza en el punto 1
     trigger_forces[2] = 80  # Fuerza en el punto 2
     trigger_forces[3] = 200  # Fuerza en el punto 3
+    
+    numero = 0
 
     # La maquina de Update con While
     while True:
@@ -91,12 +113,17 @@ def main():
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 9:
                     # jugador.teletransporte("izquierda")
-                    numero = 1
-                    cambioArmas(numero)
-                    
-
+                    numero += 1
+                    if numero > 10:
+                        numero = 10
+                  
                 if event.button == 10:
-                    jugador.teletransporte("derecha")
+                    # jugador.teletransporte("derecha")
+                    numero -= 1
+                    if numero < 1:
+                        numero = 1
+                    
+                    
         
         if teclado[K_RETURN]:
             ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
@@ -124,6 +151,7 @@ def main():
                     player_group.remove(laser_obj)
                 lasers_temporales.remove((laser_obj, tiempo))
 
+        cambioArmas(numero, ds)
 
         # code here
 
