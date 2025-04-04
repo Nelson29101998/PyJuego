@@ -10,14 +10,18 @@ from pydualsense import pydualsense, TriggerModes
 def apagarGatillos(ds):
     return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
 
-def cambioArmas(numCambiar, ds):
+def cambioArmas(numCambiar, ds=False): # Cambia el modo de los gatillos según el número
     match numCambiar:
+        case 0:
+            print("Hola 0")
+            ds.triggerL.setMode(TriggerModes.Off)
+            ds.triggerR.setMode(TriggerModes.Off)
         case 1:
             print("Hola 1")
-            ds.triggerL.setForce(1, 200)
-            ds.triggerL.setForce(2, 110)
-            ds.triggerL.setForce(3, 30)
-            ds.triggerL.setMode(TriggerModes.Pulse)
+            ds.triggerR.setForce(1, 200)
+            ds.triggerR.setForce(2, 110)
+            ds.triggerR.setForce(3, 30)
+            ds.triggerR.setMode(TriggerModes.Pulse)
         case 2:
             print("Hola 2")
         case 3:
@@ -120,10 +124,9 @@ def main():
                 if event.button == 10:
                     # jugador.teletransporte("derecha")
                     numero -= 1
-                    if numero < 1:
-                        numero = 1
-                    
-                    
+                    if numero < 0:
+                        numero = 0
+                      
         
         if teclado[K_RETURN]:
             ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
