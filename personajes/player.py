@@ -102,13 +102,13 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
             if ejeYL3 > 0.2:
                 self.mover("abajo", ejeYL3 * 1.5)
 
-            empujarL2 = buttonJoy.get_axis(4)  # Empujar L2
-            empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
-            l2_normalized = empujarL2 / 0.9 if empujarL2 > 0 else 0
-            r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
+            # empujarL2 = buttonJoy.get_axis(4)  # Empujar L2
+            # empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
+            # l2_normalized = empujarL2 / 0.9 if empujarL2 > 0 else 0
+            # r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
 
-            l2_normalized = float(min(max(l2_normalized, 0), 1))
-            r2_normalized = float(min(max(r2_normalized, 0), 1))
+            # l2_normalized = float(min(max(l2_normalized, 0), 1))
+            # r2_normalized = float(min(max(r2_normalized, 0), 1))
 
             # print("Empujar L2: ", l2_normalized , ", Empujar R2: ", r2_normalized)
 

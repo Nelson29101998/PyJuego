@@ -11,17 +11,24 @@ def apagarGatillos(ds):
     return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
 
 def cambioArmas(numCambiar, ds): # Cambia el modo de los gatillos según el número
+    buttonJoy = pygame.joystick.Joystick(0)
     match numCambiar:
         case 0:
             print("Hola 0")
             ds.triggerL.setMode(TriggerModes.Off)
             ds.triggerR.setMode(TriggerModes.Off)
         case 1:
-            print("Hola 1")
             ds.triggerR.setForce(1, 200)
             ds.triggerR.setForce(2, 110)
             ds.triggerR.setForce(3, 30)
             ds.triggerR.setMode(TriggerModes.Pulse)
+            empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
+            r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
+            r2_normalized = float(min(max(r2_normalized, 0), 1))
+            
+            if r2_normalized == 1.0:
+               return "fase1R2"
+
         case 2:
             print("Hola 2")
         case 3:
@@ -96,13 +103,13 @@ def main():
 
     # La maquina de Update con While
     while True:
+        fases = cambioArmas(numero, ds)
         teclado = pygame.key.get_pressed()
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == QUIT:
                 for joystick in joysticks:
-                    ds.triggerL.setMode(TriggerModes.Off)
-                    ds.triggerR.setMode(TriggerModes.Off)
+                    apagarGatillos(ds)
                     time.sleep(2) # Esperar 2 segundos antes de cerrar
                     joystick.quit()
                     ds.close()
@@ -122,8 +129,13 @@ def main():
                     numero -= 1
                     if numero < 0:
                         numero = 0
-                      
-        
+                
+            if event.type == pygame.JOYAXISMOTION:
+                if event.axis == 5 and fases == "fase1R2":
+                    if event.value == 1.0:
+                        ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
+                        
+
         if teclado[K_RETURN]:
             ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
         
@@ -145,7 +157,7 @@ def main():
                     player_group.remove(laser_obj)
                 lasers_temporales.remove((laser_obj, tiempo))
 
-        cambioArmas(numero, ds)
+       
 
         # code here
 
