@@ -10,7 +10,7 @@ from pydualsense import pydualsense, TriggerModes
 def apagarGatillos(ds):
     return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
 
-def cambioArmas(numCambiar, ds=False): # Cambia el modo de los gatillos según el número
+def cambioArmas(numCambiar, ds): # Cambia el modo de los gatillos según el número
     match numCambiar:
         case 0:
             print("Hola 0")
@@ -40,6 +40,8 @@ def cambioArmas(numCambiar, ds=False): # Cambia el modo de los gatillos según e
             print("Hola 9")
         case 10:
             print("Hola 10")
+    
+    return ds
 
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
     ahora = pygame.time.get_ticks()
@@ -108,6 +110,7 @@ def main():
                 for joystick in joysticks:
                     ds.triggerL.setMode(TriggerModes.Off)
                     ds.triggerR.setMode(TriggerModes.Off)
+                    time.sleep(2) # Esperar 2 segundos antes de cerrar
                     joystick.quit()
                     ds.close()
                 pygame.joystick.quit()
