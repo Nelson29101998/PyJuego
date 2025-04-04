@@ -91,13 +91,6 @@ def main():
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
     player_group.add(jugador)
     fondo_group.add(fondo)
-
-    trigger_forces = {}
-
-    # Establecer las fuerzas
-    trigger_forces[1] = 0  # Fuerza en el punto 1
-    trigger_forces[2] = 80  # Fuerza en el punto 2
-    trigger_forces[3] = 200  # Fuerza en el punto 3
     
     numero = 0
 
