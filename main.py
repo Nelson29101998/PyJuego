@@ -134,15 +134,10 @@ def main():
                 ds.triggerL.setForce(1, 200)
                 print("Gatillo izquierdo configurado en modo rígido.")
             elif buttonJoy.get_button(1):  # Botón "O"
-                ds.triggerL.setForce(1, 200)
-                ds.triggerL.setForce(2, 110)
-                ds.triggerL.setForce(3, 30)
-                ds.triggerL.setMode(TriggerModes.Pulse)
+                print("Botón O presionado.")
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
                 ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds)
-            else:
-                ds.triggerL.setMode(TriggerModes.Off)
-                ds.triggerR.setMode(TriggerModes.Off)
+            
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
             if ahora >= tiempo:
