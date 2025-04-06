@@ -4,24 +4,17 @@ from pygame.locals import *
 from personajes import player
 from armas import canonLaser
 from fondos import fondoPantalla
+from controles import ps5Control
 
-from pydualsense import pydualsense, TriggerModes
-
-def apagarGatillos(ds):
-    return ds.triggerL.setMode(TriggerModes.Off), ds.triggerR.setMode(TriggerModes.Off)
-
-def cambioArmas(numCambiar, ds): # Cambia el modo de los gatillos según el número
+def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el número
     buttonJoy = pygame.joystick.Joystick(0)
+    
     match numCambiar:
         case 0:
             print("Hola 0")
-            ds.triggerL.setMode(TriggerModes.Off)
-            ds.triggerR.setMode(TriggerModes.Off)
+            ps5Control.desactivarGatillos()
         case 1:
-            ds.triggerR.setForce(1, 200)
-            ds.triggerR.setForce(2, 110)
-            ds.triggerR.setForce(3, 30)
-            ds.triggerR.setMode(TriggerModes.Pulse)
+            ps5Ctl.pistolaGatillo()
             empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
             r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
             r2_normalized = float(min(max(r2_normalized, 0), 1))
@@ -47,14 +40,9 @@ def cambioArmas(numCambiar, ds): # Cambia el modo de los gatillos según el núm
             print("Hola 9")
         case 10:
             print("Hola 10")
-    
-    return ds
 
-def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds=False):
+def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay):
     ahora = pygame.time.get_ticks()
-    if ds:
-        # Activar el motor izquierdo
-        ds.setRightMotor(255)
     if ahora - ultimo_disparo >= disparo_delay:
         # Obtener posición del jugador
         posX, posY = jugador.getPosicion()
@@ -66,8 +54,7 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         lasers_temporales.append((laser, ahora + 3000))  # Tiempo de vida de 3 segundos
         # Actualizar el último disparo
         return ahora  # Devolver el tiempo actual para actualizar "ultimo_disparo"
-    if ds:
-        ds.setRightMotor(0)
+    
     return ultimo_disparo  # Mantener el tiempo anterior si no se disparó
 
 def main():
@@ -79,8 +66,6 @@ def main():
     joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
     for joystick in joysticks:
         joystick.init()
-        ds = pydualsense()
-        ds.init()
 
     disparo_delay = 500  # En milisegundos (medio segundo)
     ultimo_disparo = pygame.time.get_ticks()
@@ -96,6 +81,7 @@ def main():
 
     jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
+    ps5Ctl = ps5Control.Controles()
     player_group.add(jugador)
     fondo_group.add(fondo)
     
@@ -103,16 +89,17 @@ def main():
 
     # La maquina de Update con While
     while True:
-        fases = cambioArmas(numero, ds)
+        fases = cambioArmas(numero, ps5Ctl)
         teclado = pygame.key.get_pressed()
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == QUIT:
                 for joystick in joysticks:
-                    apagarGatillos(ds)
-                    time.sleep(2) # Esperar 2 segundos antes de cerrar
+                    # apagarGatillos(ds)
+                    ps5Ctl.apagarGatillos()
+                    # time.sleep(2) # Esperar 2 segundos antes de cerrar
                     joystick.quit()
-                    ds.close()
+                    # ds.close()
                 pygame.joystick.quit()
                 pygame.quit()
                 quit()
@@ -142,13 +129,13 @@ def main():
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
             if buttonJoy.get_button(0):  # Botón "X"
-                ds.triggerL.setMode(TriggerModes.Rigid)
-                ds.triggerL.setForce(1, 200)
+                # ds.triggerL.setMode(TriggerModes.Rigid)
+                # ds.triggerL.setForce(1, 200)
                 print("Gatillo izquierdo configurado en modo rígido.")
             elif buttonJoy.get_button(1):  # Botón "O"
                 print("Botón O presionado.")
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
-                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ds)
+                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
             
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
