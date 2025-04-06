@@ -12,7 +12,7 @@ def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el 
     match numCambiar:
         case 0:
             print("Hola 0")
-            ps5Control.desactivarGatillos()
+            ps5Ctl.desactivarGatillos()
         case 1:
             ps5Ctl.pistolaGatillo()
             empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
@@ -105,13 +105,13 @@ def main():
                 quit()
                 sys.exit()
             if event.type == pygame.JOYBUTTONDOWN:
-                if event.button == 9:
+                if event.button == 10:
                     # jugador.teletransporte("izquierda")
                     numero += 1
                     if numero > 10:
                         numero = 10
                   
-                if event.button == 10:
+                if event.button == 9:
                     # jugador.teletransporte("derecha")
                     numero -= 1
                     if numero < 0:

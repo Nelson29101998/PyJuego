@@ -2,7 +2,7 @@ import pygame, time
 from pygame.locals import *
 from pydualsense import pydualsense, TriggerModes
 
-class Controles(pygame.sprite.Sprite):  # Jugador de la Nave
+class Controles(pygame.sprite.Sprite):  # Jugador del control para PS5
     def __init__(self):
         super().__init__()
         if pygame.joystick.get_count() > 0:
