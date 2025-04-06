@@ -15,12 +15,12 @@ def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el 
             ps5Ctl.desactivarGatillos()
         case 1:
             ps5Ctl.pistolaGatillo()
-            empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
-            r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
-            r2_normalized = float(min(max(r2_normalized, 0), 1))
+            # empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
+            # r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
+            # r2_normalized = float(min(max(r2_normalized, 0), 1))
             
-            if r2_normalized == 1.0:
-               return "fase1R2"
+            # if r2_normalized == 1.0:
+            #    return "fase1R2"
 
         case 2:
             print("Hola 2")
@@ -41,9 +41,11 @@ def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el 
         case 10:
             print("Hola 10")
 
-def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay):
+def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl=False):
     ahora = pygame.time.get_ticks()
     if ahora - ultimo_disparo >= disparo_delay:
+        if ps5Ctl:
+            ps5Ctl.tiempoVibracion()
         # Obtener posición del jugador
         posX, posY = jugador.getPosicion()
         # Crear el láser
@@ -118,13 +120,13 @@ def main():
                         numero = 0
                 
             if event.type == pygame.JOYAXISMOTION:
-                if event.axis == 5 and fases == "fase1R2":
+                if event.axis == 5:
                     if event.value == 1.0:
-                        ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
+                        ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
                         
 
         if teclado[K_RETURN]:
-            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
+            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
         
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
@@ -135,7 +137,7 @@ def main():
             elif buttonJoy.get_button(1):  # Botón "O"
                 print("Botón O presionado.")
             elif buttonJoy.get_button(2):  # Botón "Cuadrado"
-                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
+                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
             
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
