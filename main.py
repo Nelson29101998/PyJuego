@@ -6,13 +6,18 @@ from armas import canonLaser
 from fondos import fondoPantalla
 from controles import ps5Control
 
-def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el número    
+def cambioArmas(numCambiar, ps5Ctl, joystick): # Cambia el modo de los gatillos según el número
+    tipoGatillo = ""
+   
     match numCambiar:
         case 0:
             print("Hola 0")
             ps5Ctl.desactivarGatillos()
         case 1:
             ps5Ctl.pistolaGatillo()
+            
+            if 0.95 <= joystick.get_axis(5) <= 1.0:
+                tipoGatillo = "pitolagatillo"
         case 2:
             print("Hola 2")
         case 3:
@@ -31,6 +36,9 @@ def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el 
             print("Hola 9")
         case 10:
             print("Hola 10")
+    
+
+    return tipoGatillo
 
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl=False):
     ahora = pygame.time.get_ticks()
@@ -82,7 +90,7 @@ def main():
 
     # La maquina de Update con While
     while True:
-        cambioArmas(numero, ps5Ctl)
+        sacarCanon = cambioArmas(numero, ps5Ctl, joystick)
         teclado = pygame.key.get_pressed()
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
@@ -107,14 +115,12 @@ def main():
                     if numero < 0:
                         numero = 0
                 
-            if event.type == pygame.JOYAXISMOTION:
-                if event.axis == 5:
-                    if event.value == 1.0:
-                        ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
+        if not sacarCanon == "":
+            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
                         
 
-        if teclado[K_RETURN]:
-            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
+        # if teclado[K_RETURN]:
+        #     ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
         
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
