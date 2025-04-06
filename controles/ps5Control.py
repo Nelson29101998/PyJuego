@@ -6,7 +6,6 @@ class Controles(pygame.sprite.Sprite):  # Jugador del control para PS5
     def __init__(self):
         super().__init__()
         self.disparo_delay = 50  # En milisegundos (medio segundo)
-        self.ultimo_disparo = pygame.time.get_ticks()
         if pygame.joystick.get_count() > 0:
             self.ds = pydualsense()
             self.ds.init()
@@ -37,4 +36,4 @@ class Controles(pygame.sprite.Sprite):  # Jugador del control para PS5
             self.ds.triggerR.setMode(TriggerModes.Pulse)
     
     def update(self):
-        self.ahora = pygame.time.get_ticks()
+        pass
