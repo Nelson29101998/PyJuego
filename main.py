@@ -6,22 +6,13 @@ from armas import canonLaser
 from fondos import fondoPantalla
 from controles import ps5Control
 
-def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el número
-    buttonJoy = pygame.joystick.Joystick(0)
-    
+def cambioArmas(numCambiar, ps5Ctl): # Cambia el modo de los gatillos según el número    
     match numCambiar:
         case 0:
             print("Hola 0")
             ps5Ctl.desactivarGatillos()
         case 1:
             ps5Ctl.pistolaGatillo()
-            # empujarR2 = buttonJoy.get_axis(5)  # Empujar R2
-            # r2_normalized = empujarR2 / 0.9 if empujarR2 > 0 else 0
-            # r2_normalized = float(min(max(r2_normalized, 0), 1))
-            
-            # if r2_normalized == 1.0:
-            #    return "fase1R2"
-
         case 2:
             print("Hola 2")
         case 3:
@@ -91,17 +82,14 @@ def main():
 
     # La maquina de Update con While
     while True:
-        fases = cambioArmas(numero, ps5Ctl)
+        cambioArmas(numero, ps5Ctl)
         teclado = pygame.key.get_pressed()
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == QUIT:
                 for joystick in joysticks:
-                    # apagarGatillos(ds)
                     ps5Ctl.apagarGatillos()
-                    # time.sleep(2) # Esperar 2 segundos antes de cerrar
                     joystick.quit()
-                    # ds.close()
                 pygame.joystick.quit()
                 pygame.quit()
                 quit()
@@ -126,7 +114,7 @@ def main():
                         
 
         if teclado[K_RETURN]:
-            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
+            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay)
         
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
@@ -136,8 +124,6 @@ def main():
                 print("Gatillo izquierdo configurado en modo rígido.")
             elif buttonJoy.get_button(1):  # Botón "O"
                 print("Botón O presionado.")
-            elif buttonJoy.get_button(2):  # Botón "Cuadrado"
-                ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
             
                 
         for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
@@ -145,8 +131,6 @@ def main():
                 if laser_obj in player_group:
                     player_group.remove(laser_obj)
                 lasers_temporales.remove((laser_obj, tiempo))
-
-       
 
         # code here
 
