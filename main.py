@@ -1,4 +1,4 @@
-import pygame, time, sys
+import pygame, time, sys, os
 from pygame.locals import *
 
 from personajes import player
@@ -7,17 +7,17 @@ from fondos import fondoPantalla
 from controles import ps5Control
 
 def cambioArmas(numCambiar, ps5Ctl, joystick): # Cambia el modo de los gatillos según el número
-    tipoGatillo = ""
+    tipoGatillo = (0, 0, 0)
    
     match numCambiar:
         case 0:
             ps5Ctl.desactivarGatillos()
-            tipoGatillo = ""
+            tipoGatillo = (0, 0, 0)
         case 1:
             ps5Ctl.pistolaGatillo()
             
             if 0.95 <= joystick.get_axis(5) <= 1.0:
-                tipoGatillo = "pitolagatillo"
+                tipoGatillo = (255, 0, 0)
         case 2:
             print("Hola 2")
         case 3:
@@ -40,7 +40,7 @@ def cambioArmas(numCambiar, ps5Ctl, joystick): # Cambia el modo de los gatillos 
 
     return tipoGatillo
 
-def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl=False):
+def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, color, ps5Ctl=False):
     ahora = pygame.time.get_ticks()
     if ahora - ultimo_disparo >= disparo_delay:
         if ps5Ctl:
@@ -48,7 +48,7 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         # Obtener posición del jugador
         posX, posY = jugador.getPosicion()
         # Crear el láser
-        laser = canonLaser.Laser((255, 0, 0), posX, posY)
+        laser = canonLaser.Laser(color, posX, posY)
         # Añadir el láser al grupo
         player_group.add(laser)
         # Registrar tiempo de vida del láser
@@ -72,7 +72,8 @@ def main():
     ultimo_disparo = pygame.time.get_ticks()
     lasers_temporales = [] # Lista para almacenar los láseres temporales
     
-    WIDTH, HEIGHT = 1000, 700
+    WIDTH, HEIGHT = 1280, 820
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
@@ -115,8 +116,8 @@ def main():
                     if numero < 0:
                         numero = 0
                 
-        if not sacarCanon == "":
-            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, ps5Ctl)
+        if not sacarCanon == (0, 0, 0):
+            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, sacarCanon, ps5Ctl)
                         
 
         # if teclado[K_RETURN]:
