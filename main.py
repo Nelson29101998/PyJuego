@@ -11,8 +11,8 @@ def cambioArmas(numCambiar, ps5Ctl, joystick): # Cambia el modo de los gatillos 
    
     match numCambiar:
         case 0:
-            print("Hola 0")
             ps5Ctl.desactivarGatillos()
+            tipoGatillo = ""
         case 1:
             ps5Ctl.pistolaGatillo()
             
@@ -82,7 +82,7 @@ def main():
 
     jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
-    ps5Ctl = ps5Control.Controles()
+    ps5Ctl = ps5Control.Controles(joystick)
     player_group.add(jugador)
     fondo_group.add(fondo)
     
