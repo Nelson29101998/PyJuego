@@ -50,7 +50,7 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         # Crear el láser
         laser = canonLaser.Laser(color, posCenter)
         # Añadir el láser al grupo
-        player_group.add(laser)
+        player_group.add(laser, layer=0)
         # Registrar tiempo de vida del láser
         lasers_temporales.append((laser, ahora + 3000))  # Tiempo de vida de 3 segundos
         # Actualizar el último disparo
@@ -77,14 +77,15 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
-    player_group = pygame.sprite.Group()
+    player_group = pygame.sprite.LayeredUpdates()
+
 
     fondo_group = pygame.sprite.Group()
 
     jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
     ps5Ctl = ps5Control.Controles(joystick)
-    player_group.add(jugador)
+    player_group.add(jugador, layer=1)
     fondo_group.add(fondo)
     
     numero = 0
