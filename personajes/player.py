@@ -15,12 +15,12 @@ class Jugador(pygame.sprite.Sprite):  # Jugador de la Nave
         # Calcular el nuevo tamaño manteniendo las proporciones
         new_width = int(original_width * scale_factor)
         new_height = int(original_height * scale_factor)
-
         self.image = pygame.transform.scale(image_file, (new_width, new_height))
+        self.rect = pygame.Rect(x, y, new_width, new_height)
         self.rect = self.image.get_rect(center=(x, y))
         
     def getPosicion(self):
-        return self.rect.x, self.rect.y
+        return self.rect.center
     
     def limitePantalla(self):
         self.maxArriba, self.maxAbajo, self.maxIzquierda, self.maxDerecha = 370, self.limitePantallaY, 0, self.limitePantallaX # Limite superior

@@ -46,9 +46,9 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
         if ps5Ctl:
             ps5Ctl.tiempoVibracion()
         # Obtener posición del jugador
-        posX, posY = jugador.getPosicion()
+        posCenter = jugador.getPosicion()
         # Crear el láser
-        laser = canonLaser.Laser(color, posX, posY)
+        laser = canonLaser.Laser(color, posCenter)
         # Añadir el láser al grupo
         player_group.add(laser)
         # Registrar tiempo de vida del láser
