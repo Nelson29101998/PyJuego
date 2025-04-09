@@ -19,6 +19,7 @@ def cambioArmas(numCambiar, ps5Ctl, joystick): # Cambia el modo de los gatillos 
             if 0.95 <= joystick.get_axis(5) <= 1.0:
                 tipoGatillo = (255, 0, 0)
         case 2:
+            ps5Ctl.otroGatillo()
             print("Hola 2")
         case 3:
             print("Hola 3")
