@@ -127,9 +127,7 @@ def main():
         if pygame.joystick.get_count() > 0:
             buttonJoy = pygame.joystick.Joystick(0)
             if buttonJoy.get_button(0):  # Botón "X"
-                # ds.triggerL.setMode(TriggerModes.Rigid)
-                # ds.triggerL.setForce(1, 200)
-                print("Gatillo izquierdo configurado en modo rígido.")
+                print("Botón X presionado.")
             elif buttonJoy.get_button(1):  # Botón "O"
                 print("Botón O presionado.")
             

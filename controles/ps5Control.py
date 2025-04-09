@@ -36,6 +36,11 @@ class Controles(pygame.sprite.Sprite):  # Jugador del control para PS5
             self.ds.triggerR.setForce(2, 110)
             self.ds.triggerR.setForce(3, 30)
             self.ds.triggerR.setMode(TriggerModes.Pulse)
+            
+    def otroGatillo(self):
+        if self.joystick.get_name() == "DualSense Wireless Controller" and self.joystick.get_numaxes() > 5:
+            self.ds.triggerL.setMode(TriggerModes.Rigid)
+            self.ds.triggerL.setForce(1, 200)
     
     def update(self):
         if self.joystick.get_name() == "DualSense Wireless Controller" and self.joystick.get_numaxes() > 5:
