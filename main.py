@@ -118,12 +118,12 @@ def main():
             elif buttonJoy.get_button(1):  # Botón "O"
                 print("Botón O presionado.")
             
-        if sacarCanonyTiempo[2] > 0:        
-            for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
-                if ahora >= tiempo:
-                    if laser_obj in player_group:
-                        player_group.remove(laser_obj)
-                    lasers_temporales.remove((laser_obj, tiempo))
+               
+        for laser_obj, tiempo in lasers_temporales[:]:  # Iterar sobre una copia de la lista
+            if ahora >= tiempo:
+                if laser_obj in player_group:
+                    player_group.remove(laser_obj)
+                lasers_temporales.remove((laser_obj, tiempo))
 
         # code here
 
