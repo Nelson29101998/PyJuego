@@ -6,8 +6,6 @@ from armas import canonLaser, largoLaser
 from fondos import fondoPantalla
 from controles import ps5Control
 
-
-
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, color, tiempoVelc, tiempoLaser, ps5Ctl=False):
     ahora = pygame.time.get_ticks()
     if ahora - ultimo_disparo >= disparo_delay:
@@ -103,9 +101,14 @@ def main():
                     if numero < 0:
                         numero = 0
                 
-                if event.button == 7: 
+                if event.button == 7:
+                    ps5Ctl.pistolaGatillo()
                     print("Botón R2 presionado.")
-                    
+            
+            if event.type == pygame.JOYBUTTONUP:
+                if event.button == 7: 
+                    ps5Ctl.desactivarGatillos()
+                    print("Botón R2 suelta.")
                         
 
         # if teclado[K_RETURN]:
