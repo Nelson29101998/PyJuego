@@ -2,66 +2,11 @@ import pygame, time, sys, os
 from pygame.locals import *
 
 from personajes import player
-from armas import canonLaser
+from armas import canonLaser, largoLaser
 from fondos import fondoPantalla
 from controles import ps5Control
 
-def cambioArmas(numCambiar, joystick, ps5Ctl=False): # Cambia el modo de los gatillos según el número
-    tipoGatillo = (0, 0, 0)
-    tiempoVelc = 0
-    tiempoLaser = 0
-    largoLaser = 0
-   
-    match numCambiar:
-        case 0:
-            if ps5Ctl:
-                ps5Ctl.desactivarGatillos()
-            tipoGatillo = (0, 0, 0)
-            tiempoVelc = 0
-            tiempoLaser = 0
-        case 1:
-            if ps5Ctl:
-                ps5Ctl.pistolaGatillo()
-            
-            if 0.95 <= joystick.get_axis(5) <= 1.0:
-                tipoGatillo = (255, 0, 0)
-                tiempoVelc = 7
-                tiempoLaser = 3000 # Tiempo de vida de 3 segundos
-        case 2:
-            if ps5Ctl:
-                ps5Ctl.otroGatillo()
-            
-            if 0.95 <= joystick.get_axis(5) <= 1.0:
-                tipoGatillo = (255, 255, 0)
-                tiempoVelc = 15
-                tiempoLaser = 1500 # Tiempo de vida de 1.5 segundos
-        case 3:
-            if ps5Ctl:
-                ps5Ctl.otroGatillo()
-            if 0.95 <= joystick.get_axis(5) <= 1.0:
-                ps5Ctl.manterVibracion()
-                tipoGatillo = (255, 255, 0)
-                largoLaser = 90
-                tiempoLaser = 0 # Toda la vida
-            else:
-                ps5Ctl.desactivarManterVibracion()
-        case 4:
-            print("Hola 4")
-        case 5:
-            print("Hola 5")
-        case 6:
-            print("Hola 6")
-        case 7:
-            print("Hola 7")
-        case 8:
-            print("Hola 8")
-        case 9:
-            print("Hola 9")
-        case 10:
-            print("Hola 10")
-    
 
-    return tipoGatillo, tiempoVelc, tiempoLaser, largoLaser
 
 def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay, color, tiempoVelc, tiempoLaser, ps5Ctl=False):
     ahora = pygame.time.get_ticks()
@@ -81,15 +26,15 @@ def disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, dis
     
     return ultimo_disparo  # Mantener el tiempo anterior si no se disparó
 
-def mantener_laser(jugador, player_group, largoLaser, ps5Ctl=False):
+def mantener_laser(jugador, laser_group, largoLaser, ps5Ctl=False):
     tiempoVelc = 0
     
     # Obtener posición del jugador
     posCenter = jugador.getPosicion()
     # Crear el láser
-    laser = canonLaser.Laser((255, 0, 0), posCenter, tiempoVelc, largoLaser)
+    # laser = canonLaser.Laser((255, 0, 0), posCenter, tiempoVelc, largoLaser)
     # Añadir el láser al grupo
-    player_group.add(laser, layer=0)
+    laser_group.handle_click()
     # Registrar tiempo de vida del láser
 
 def main():
@@ -112,12 +57,14 @@ def main():
     clock = pygame.time.Clock()
 
     player_group = pygame.sprite.LayeredUpdates()
-
-
     fondo_group = pygame.sprite.Group()
+    
+    laser_group = pygame.sprite.Group()
 
     jugador = player.Jugador("assets/img/player/naveJ1.png", WIDTH, HEIGHT)
     fondo = fondoPantalla.Pantalla("assets/img/fondo/galaxia.jpg", [0, 0])
+    
+    laserDraw = largoLaser.Largo((255, 0, 0), jugador.getPosicion())
     
     if joystick.get_name() == "DualSense Wireless Controller" and joystick.get_numaxes() > 5:
         ps5Ctl = ps5Control.Controles(joystick)
@@ -126,15 +73,12 @@ def main():
     player_group.add(jugador, layer=1)
     fondo_group.add(fondo)
     
+    laser_group.add(laserDraw)
+    
     numero = 0
 
     # La maquina de Update con While
     while True:
-        if joystick.get_name() == "DualSense Wireless Controller" and joystick.get_numaxes() > 5:
-            sacarCanonyTiempo = cambioArmas(numero, joystick, ps5Ctl)
-        else:
-            sacarCanonyTiempo = cambioArmas(numero, joystick)
-        
         ahora = pygame.time.get_ticks()
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -159,11 +103,9 @@ def main():
                     if numero < 0:
                         numero = 0
                 
-        if not sacarCanonyTiempo[0] == (0, 0, 0):
-            ultimo_disparo = disparar_laser(jugador, player_group, lasers_temporales, ultimo_disparo, disparo_delay,
-                                            sacarCanonyTiempo[0], sacarCanonyTiempo[1], sacarCanonyTiempo[2], ps5Ctl)
-        elif not sacarCanonyTiempo[0] == (0, 0, 0) and sacarCanonyTiempo[3] > 0:
-            ultimo_disparo = mantener_laser(jugador, player_group, sacarCanonyTiempo[3], ps5Ctl)
+                if event.button == 7: 
+                    print("Botón R2 presionado.")
+                    
                         
 
         # if teclado[K_RETURN]:
@@ -190,6 +132,8 @@ def main():
 
         player_group.draw(screen)
         player_group.update()
+        
+        laser_group.draw(screen)
 
         pygame.display.flip()
         screen.fill((0, 0, 0))
